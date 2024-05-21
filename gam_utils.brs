@@ -12,7 +12,7 @@
 ' See the License for the specific language governing permissions and
 ' limitations under the License.
 '
-' GAM Utils v2.0.0b0
+' GAM Utils v2.0.0b1
 '
 ' GAM Utils is a small BrightScript library that helps enable programmatic
 ' monetization on Google Ad Manager for Roku apps. It serves as a lightweight
@@ -76,12 +76,12 @@ Function newAppSession() As Object
       "ppid": args.publisherProvidedId,
       "sid": args.sessionId,
       "sdk_apis": m._urlTransfer.escape(args.supportedApiFrameworks.join(",")),
-      "aselc": "1",
+      "aselc": "3",
       "asscs_correlator": args.asscsCorrelator,
       "msid": m._appInfo.getId(),
       "ctv": "1",
       "is_lat": m._booleanAsString(m._deviceInfo.isRidaDisabled(), "1", "0"),
-      "guv": "r.2.0.0b0",
+      "guv": "r.2.0.0b1",
       "imav": "r.3.2.2",
       "ua": m._getUserAgent()
     }
