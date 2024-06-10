@@ -1,6 +1,9 @@
 # Changelog for GAM Utils
 
-## 2.0.0b2 - TBD
+## 2.0.0b3 - TBD
+
+## 2.0.0b2 - 2024-06-10
+- Remove usage of deprecated `ifDeviceInfo.isHdmiConnected()`.
 
 ## 2.0.0b1 - 2024-05-21
 - Fix issue where signal had wrong constant value.
