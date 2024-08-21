@@ -72,10 +72,11 @@ in the table below:
 | `iconsSupported` 	| Boolean 	| Indicates whether the player supports VAST Icons, such as [Why this ad?][WTA] 	|
 | `publisherProvidedId` 	| String 	| The [PPID][PPID] is used for frequency capping, audience segmentation and targeting, sequential ad rotation, and other audience-based ad delivery controls across devices. 	|
 | `raf` | Object of type `Roku_Ads()`  | An instance of the (Roku Advertising Framework)[RAF]  |
-| `videoHeight` 	| Integer 	| The height of the video player. 	|
-| `videoWidth` 	| Integer 	| The width of the video player. 	|
+| `skippablesSupported` 	| Boolean 	| Indicates whether to make skippable ads eligible for ad responses in this session.  |
 | `storageAllowed` 	| Boolean 	| Indicates whether the user has provided permission to use local storage. 	|
 | `supportedApiFrameworks` 	| Array of Integers 	| Indicates all of the [API frameworks][APIS] that this player supports. 	|
+| `videoHeight` 	| Integer 	| The height of the video player. 	|
+| `videoWidth` 	| Integer 	| The width of the video player. 	|
 
 #### Example
 
@@ -90,10 +91,11 @@ m.contentSession = m.appSession.newContentSession({
   iconsSupported: True,
   publisherProvidedId: "123456",
   raf: m.raf,
-  videoHeight: 480,
-  videoWidth: 640,
+  skippablesSupported: False,
   storageAllowed: True,
-  supportedApiFrameworks: []
+  supportedApiFrameworks: [],
+  videoHeight: 480,
+  videoWidth: 640
  })
 ```
 
@@ -186,6 +188,14 @@ while streamIsActive
   ...
 end while
 ```
+
+### 9. Send VAST tracking events
+
+Call ad progress tracking event URLs to support ad tracking and reporting.
+Additional steps are needed to
+[support skippable ads](https://github.com/googleads/gam-utils-roku/blob/main/skippable-ads.md).
+See the [IAB VAST standards](https://iabtechlab.com/standards/vast/) for more
+information on the tracking events.
 
 [hc link]: https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/main/AdCOM%20v1.0%20FINAL.md#list_apiframeworks
 [HC-URL]: https://support.google.com/admanager/answer/10678356#description_url
