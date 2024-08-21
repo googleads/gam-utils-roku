@@ -33,10 +33,12 @@ function runThread()
     iconsSupported: True,
     publisherProvidedId: "123456",
     raf: m.raf,
-    videoHeight: 480,
-    videoWidth: 640,
+    'See skippable-ads.md for supporting skippable ads.
+    skippablesSupported: False,
     storageAllowed: True,
-    supportedApiFrameworks: []
+    supportedApiFrameworks: [],
+    videoHeight: 480,
+    videoWidth: 640
   })
 
   ' Make a mock stream/ads request.

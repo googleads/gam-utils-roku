@@ -1,0 +1,11 @@
+/*
+!/.gitignore
+!/sample
+!/sample/*
+!/LICENSE
+!/CHANGELOG.md
+!/CONTRIBUTING
+!/README.md
+!/build_sample.sh
+!/gam_utils.brs
+!/skippable-ads.md
