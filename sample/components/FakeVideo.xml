@@ -15,22 +15,25 @@
  limitations under the License.
  -->
 
-<component name="AdsTask" extends="Task">
+<component name="FakeVideo" extends="Video">
   <interface>
-    <field id="requestStream" type="Boolean" />
-    <field id="sendAdClickBeacon" type="Boolean" />
-    <field id="sendAdTouchBeacon" type="String" />
-    <field id="sendStartedBeacon" type="Boolean" />
-    <field id="sendEndedBeacon" type="Boolean" />
+    <field id="pressedKey" type="String" />
   </interface>
-  <script type="text/brightscript" uri="../source/gam_utils.brs" />
-  <script type="text/brightscript" uri="fake_ssai.brs" />
-  <script type="text/brightscript" uri="ads_task.brs" />
   <script type="text/brightscript">
-  <![CDATA[
-    function init() as Void
-      m.top.functionName = "runThread"
-    end function
-  ]]>
+    <![CDATA[
+
+      function onKeyEvent(key as String, press as Boolean) as Boolean
+        if press
+          m.top.pressedKey = key
+        end if
+        return True
+      end function
+
+    ]]>
   </script>
+
+  <children>
+    <Label text="VIDEO" color="0xFFFFFFFF" font="font:MediumBoldSystemFont" horizAlign="center" vertAlign="center" width="720" height="480" />
+  </children>
+
 </component>
