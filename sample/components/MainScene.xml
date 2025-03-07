@@ -16,22 +16,24 @@
  -->
 
 <component name="MainScene" extends="Scene">
-  <script type="text/brightscript">
-  <![CDATA[
-    function init() as Void
-    ' RAF only works from task or main() thread, so dispatch off to one.
-      m.adsTask = createObject("roSGNode", "AdsTask")
-      m.adsTask.control = "RUN"
-    end function
-  ]]>
-  </script>
+  <script type="text/brightscript" uri="main_scene.brs" />
   <children>
-    <Label
-        height="90"
-        width="0"
-        font="font:MediumBoldSystemFont"
-        text="GAM Utils Demo"
-        horizAlign="left"
-        vertAlign="center" />
+    <LayoutGroup>
+      <Label
+          height="90"
+          width="0"
+          font="font:MediumBoldSystemFont"
+          text="GAM Utils Demo Channel"
+          horizAlign="left"
+          vertAlign="center" />
+      <ButtonGroup>
+        <button text="Request (Mock) Stream" id="requestMockStreamButton" />
+        <button text="Send Ad Click Beacon" id="sendAdClickBeaconButton" />
+        <button text="Send Started Beacon" id="sendStartedBeaconButton" />
+        <button text="Send Ended Beacon" id="sendEndedBeaconButton" />
+        <button text="Transfer Focus to Video" id="transferFocusToVideoButton" />
+      </ButtonGroup>
+      <FakeVideo id="FakeVideo" width="720" height="480" focusable="true" />
+    </LayoutGroup>
   </children>
 </component>

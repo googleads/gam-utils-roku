@@ -16,14 +16,73 @@ library "Roku_Ads.brs"
 
 ' Thread entry point.
 function runThread()
-  debugOutput = True
+  m.debugOutput = True
 
   ' Set up RAF.
   m.raf = Roku_Ads()
-  m.raf.setDebugOutput(debugOutput)
+  m.raf.setDebugOutput(m.debugOutput)
 
-  ' Setup a GAM Utils session.
+  ' Setup a GAM Utils session at app launch.
   m.appSession = newAppSession()
+  ' Do not create the content session until the stream is requested.
+  m.contentSession = Invalid
+
+  ' Loop forever, waiting for messages from the main thread.
+  port = createObject("roMessagePort")
+  m.top.observeField("requestStream", port)
+  m.top.observeField("sendAdClickBeacon", port)
+  m.top.observeField("sendAdTouchBeacon", port)
+  m.top.observeField("sendStartedBeacon", port)
+  m.top.observeField("sendEndedBeacon", port)
+  while True
+    ' Call `poll()` once a second to optimally send progress beacons.
+    message = port.waitMessage(1000)
+    if message = Invalid and m.contentSession <> Invalid
+      m.contentSession.poll()
+    end if
+
+    if message = Invalid
+      continue while
+    end if
+
+    ' Handle messages from the main thread, and reset the field for the next
+    ' message.
+    field = message.getField()
+    data = message.getData()
+    if field = "requestStream" and data = True
+      requestStream()
+      m.top.requestStream = False
+      continue while
+    end if
+
+    if m.contentSession = Invalid
+      continue while
+    end if
+
+    if field = "sendAdClickBeacon" and data = True
+      m.contentSession.sendAdClickBeacon()
+      m.top.sendAdClickBeacon = False
+    else if field = "sendAdTouchBeacon" and data <> ""
+      m.contentSession.sendAdTouchBeacon(m.top.sendAdTouchBeacon)
+      m.top.sendAdTouchBeacon = Invalid
+    else if field = "sendStartedBeacon" and data = True
+      m.contentSession.sendStartedBeacon()
+      m.top.sendStartedBeacon = False
+    else if field = "sendEndedBeacon" and data = True
+      m.contentSession.sendEndedBeacon()
+      m.contentSession = Invalid
+      m.top.sendEndedBeacon = False
+    end if
+  end while
+end function
+
+function requestStream()
+  if m.contentSession <> Invalid
+    m.contentSession.sendEndedBeacon()
+    m.contentSession = Invalid
+  end if
+
+  ' Set up a new content session and use the GIVN to request a stream.
   m.contentSession = m.appSession.newContentSession({
     adWillAutoPlay: True,
     adWillPlayMuted: False,
@@ -43,37 +102,11 @@ function runThread()
 
   ' Make a mock stream/ads request.
   givn = m.contentSession.getGIVN()
-  if debugOutput then print "DEBUG: givn: ";givn
+  if m.debugOutput then print "DEBUG: givn: ";givn
   adTagParameters = {
     "givn": givn,
-    "iu": "/22735030358/test_slot",
+    "iu": "/21775744923/test_slot",
   }
   makeStreamRequest(adTagParameters)
-
-  ' Use helper code to send beaconing signals on ad start and ad click events.
-  m.contentSession.sendStartedBeacon()
-  m.contentSession.sendAdClickBeacon()
-
-  ' In production, only send an ad touch beaconsing signal when the user reacts
-  ' to an ad. For example, you can listen to the remote control `onKeyEvent`
-  ' (https://developer.roku.com/en-gb/docs/references/scenegraph/component-functions/onkeyevent.md)
-  ' and call the `sendAdTouchBeacon` function.
-  m.contentSession.sendAdTouchBeacon("OK")
-
-  port = createObject("roMessagePort")
-  streamTimer = createObject("roTimespan")
-  streamIsActive = True
-
-  while streamIsActive
-    ' Poll the helper code so it can send progress beacons as needed.
-    message = port.waitMessage(1000)
-    if message = Invalid then m.contentSession.poll()
-    ' For the purposes of this example, the "stream" "ends" after 11s, but in
-    ' production this should be tied to the actual stream in the video player.
-    if streamTimer.totalSeconds() > 11 then streamIsActive = False
-  end while
-
-  ' Use helper code to send beaconing signals on ad complete events.
-  m.contentSession.sendEndedBeacon()
 
 end function
