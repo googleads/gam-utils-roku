@@ -5,11 +5,6 @@ helps enable programmatic monetization on Google Ad Manager for Roku apps. It
 serves as a lightweight alternative to the
 [IMA DAI SDK](https://developers.google.com/ad-manager/dynamic-ad-insertion/sdk/roku).
 
-## Prerequisites
-
-You need to have your Google Ad Manager account manager enable your app for
-using GAM Utils before integrating it into your Roku app.
-
 ## Building the sample app
 
 The `/sample` folder contains a minimal sample integration of `gam_utils.brs`.
