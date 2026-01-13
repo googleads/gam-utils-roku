@@ -7,11 +7,12 @@ and send the associated tracking events.
 
 ## Prerequisites
 
-Before you continue, you need a Roku app integrated with GAM Utils. See the
-[GAM utils readme](https://github.com/googleads/gam-utils-roku/blob/main/README.md)
-for more info.
+This guide demonstrates how to use the GAM Utils for Roku to create an ad
+request for skippable ads, render the skip button using
+[Google Ads](//support.google.com/google-ads/answer/6055025)
+as an example, and send the associated tracking events.
 
-## Include the skippablesSupported parameter when creating content session
+## Include the `skippablesSupported` parameter when creating content session
 
 When creating a new content session, include `skippablesSupported: True` with
 `appSession.newContentSession()`. If it is not set, support for skippable ads
