@@ -11,6 +11,15 @@ Before you continue, you need a Roku app integrated with GAM Utils. See the
 [GAM utils readme](https://github.com/googleads/gam-utils-roku/blob/main/README.md)
 for more info.
 
+### Incompatibility with the `showAds()` method
+
+To support skippable ads using GAM Utils, it's not possible to show a skip
+button or other overlay UI when using the Roku Ad Framework (RAF)
+[`showAds()`](https://developer.roku.com/dev/docs/raf-api#showadsads-as-object-ctx-as-object-view-as-object-as-boolean)
+method. Instead, you must implement your own custom `showAds()` functionality.
+For details on implementing, see
+[Custom ad rendering](https://developer.roku.com/dev/docs/integrating-roku-advertising-framework#custom-ad-rendering).
+
 ## Include the `skippablesSupported` parameter when creating content session
 
 When creating a new content session, include `skippablesSupported: True` with
